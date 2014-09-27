@@ -1,5 +1,6 @@
 var passport = require('passport');
 var Account = require('./models/account');
+var Trip = require('./models/trip');
 
 module.exports = function (app) {
     
@@ -11,9 +12,71 @@ module.exports = function (app) {
       res.render('register', { });
   });
 
+  //Trips CRUD
+
   app.get('/trips', function(req, res) {
-      res.render('trips', { });
+      res.render('trips/index.jade', { user : req.user });
   });
+
+  app.get('/trips/new', function(req, res){
+  res.render('trips/new.jade', { 
+    user : req.user
+  });
+});
+
+app.post('/trips/new', function(req, res){
+  var tripname = req.body.name;
+
+  trip = new Trip({
+    name:req.body.name  });
+  
+
+    trip.save(function (err){
+    if (!err) {
+      res.redirect('/trips');
+    }
+    else {
+      req.flash('warning', err);
+      res.redirect('/trips/new');
+    }
+  });
+});
+
+
+  app.put('/trips/:id', function(req, res){
+  trip.findById(req.params.id, function (err, doc){
+    doc.updated_at = new Date();
+    doc.trip = req.body.trip.trip;
+    doc.save(function(err) {
+      if (!err){
+        req.flash('info', 'trip udpated');
+        res.redirect('/trips');
+      }
+      else {
+        // error handling
+      }
+    });
+  });
+});
+
+// Delete
+app.del('/trips/:id', function(req, res){
+  trip.findOne({ _id: req.params.id }, function(err, doc) {
+    if (!doc) return next(new NotFound('Document not found'));
+    doc.remove(function() {
+      req.flash('info', 'trip deleted');
+      res.redirect('/trips');
+    });
+  });
+});
+
+
+  app.get('/trips/:id', function(req, res){
+  Trip.findById(req.params.id, function (err, doc){
+    res.render('trips/show.jade', { 
+    });
+  });
+});
 
 
   app.post('/register', function(req, res) {
