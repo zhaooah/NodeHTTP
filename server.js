@@ -18,6 +18,9 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
+app.use(express.static(__dirname + '/public'));
+app.use("/public",express.static(__dirname + '/public'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.configure('development', function(){
