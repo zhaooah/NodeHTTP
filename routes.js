@@ -57,7 +57,6 @@ app.post('/trips/new', function(req, res){
 
 
 app.post('/getHotelData', function(req, res){
-     var HotelsRegion;
 
         backURL=req.header('Referer') || '/';
 
@@ -71,7 +70,7 @@ app.post('/getHotelData', function(req, res){
     console.log(ResultPath);
 
 
- 
+ var HotelZones;
  
   request(ResultPath, function (error, response, body) {
 
@@ -82,13 +81,19 @@ app.post('/getHotelData', function(req, res){
 
     if (!error && response.statusCode == 200) {
       //console.log(body)
-      HotelsRegion=JSON.parse(body); // Print the google web page.
+      var HotelZones=JSON.parse(body).region.zones;
+
+    res.render('trips/zones.jade', { 
+            zones:  HotelZones,
+            backRoute:backURL
+    });
+
     }
 
 
 })
 
-  console.log(HotelsRegion.exactMatch);
+
 
 
 
