@@ -83,10 +83,7 @@ app.post('/getHotelData', function(req, res){
       //console.```(body)
       var HotelZones=JSON.parse(body).region.zones;
 
-    res.render('trips/zones.jade', { 
-            zones:  HotelZones,
-            backRoute:backURL
-    });
+      res.redirect(backURL);
 
     }
 
@@ -104,6 +101,9 @@ app.post('/getHotelData', function(req, res){
 
 app.post('/doneWithSelection', function(req, res){
 
+  backURL=req.header('Referer') || '/';
+
+
   //Let us insert data
   var cityName=req.body.city;
   var start=req.body.checkin;
@@ -112,6 +112,7 @@ app.post('/doneWithSelection', function(req, res){
   var min=req.body.MinimumPrice;
   var max=req.body.MaximumPrice;
   var TripId=req.body.backKey;
+
 
   var RequestPath='http://www.priceline.com/api/hotelretail/listing/v3/'.concat(cityName).concat('/').concat(start).concat('/').concat(end).concat('/').concat(room).concat('/100?offset=0');
  
@@ -146,7 +147,16 @@ app.post('/doneWithSelection', function(req, res){
         //console.log(Hotels[HotelIndex].hotelName);
 
         
+
+
       }
+
+          res.render('trips/show.jade', { 
+            tripID:TripId
+        });
+
+
+      //Render the webpage here
 
 
 //      console.log(Trip.findById(TripId, function (err, hotels) {}));
