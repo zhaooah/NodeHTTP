@@ -5,11 +5,11 @@ var mongoose = require('mongoose'),
 
 var ObjectId = require('mongoose').Schema.ObjectId;
 
-var Account = new Schema({
+
+var Trip = new Schema({
     id: ObjectId,
-    username: String,
-    password: String,
-    email: String
+    name: String,
+    buddies : [ {type : mongoose.Schema.ObjectId, ref : 'Account'} ]
 });
 
 Account.plugin(passportLocalMongoose);

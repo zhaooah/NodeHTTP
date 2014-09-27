@@ -11,6 +11,11 @@ module.exports = function (app) {
       res.render('register', { });
   });
 
+  app.get('/trips', function(req, res) {
+      res.render('trips', { });
+  });
+
+
   app.post('/register', function(req, res) {
       Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
           if (err) {
@@ -18,17 +23,18 @@ module.exports = function (app) {
           }
 
           passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
+            res.redirect('back');    
           });
       });
   });
 
   app.get('/login', function(req, res) {
+      backURL=req.header('Referer') || '/';
       res.render('login', { user : req.user });
   });
 
   app.post('/login', passport.authenticate('local'), function(req, res) {
-      res.redirect('/');
+      res.redirect(backURL);
   });
 
   app.get('/logout', function(req, res) {

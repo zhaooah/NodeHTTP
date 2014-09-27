@@ -1,0 +1,14 @@
+extends layout
+
+block content  
+	h1 Here are my trips
+	if (!user)
+		a(href="/login") Login
+		br
+		a(href="/register") Register
+	if (user)
+		- each post in posts
+			a(href="/trips/"+ trip._id.toHexString())!= trip.title
+
+	script(src='http://code.jquery.com/jquery.js')
+	script(src='js/bootstrap.min.js')
