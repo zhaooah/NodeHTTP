@@ -80,7 +80,7 @@ app.post('/getHotelData', function(req, res){
 
 
     if (!error && response.statusCode == 200) {
-      //console.log(body)
+      //console.```(body)
       var HotelZones=JSON.parse(body).region.zones;
 
     res.render('trips/zones.jade', { 
@@ -98,6 +98,79 @@ app.post('/getHotelData', function(req, res){
 
 
 });
+
+
+
+
+app.post('/doneWithSelection', function(req, res){
+
+  //Let us insert data
+  var cityName=req.body.city;
+  var start=req.body.checkin;
+  var end=req.body.checkout;
+  var room=req.body.room;
+  var min=req.body.MinimumPrice;
+  var max=req.body.MaximumPrice;
+  var TripId=req.body.backKey;
+
+  var RequestPath='http://www.priceline.com/api/hotelretail/listing/v3/'.concat(cityName).concat('/').concat(start).concat('/').concat(end).concat('/').concat(room).concat('/100?offset=0');
+ 
+  request(RequestPath, function (error, response, body) {
+
+      console.log(error);
+     // console.log(response);
+     // console.log(body);
+   
+
+    if (!error && response.statusCode == 200) {
+      //console.log(body)
+      var Hotels=JSON.parse(body).hotels;
+      var HotelList=JSON.parse(body).hmiSorted;
+//      var it = Iterator(HotelList);
+  //    for (var hotel in it)
+    //    console.log(hotel);
+
+
+      for(var i = 0; i < HotelList.length;i++){
+          var HotelIndex=HotelList[i];
+          var HotelPrice=Hotels[HotelIndex].merchPrice;
+
+         // console.log(max);
+        if (HotelPrice<=parseInt(max,10) || HotelPrice>=parseInt(min,10)){
+          console.log(Hotels[HotelIndex].hotelName);
+            Trip.update({_id:TripId },
+         {$push: { 'candidateHotels' : HotelIndex }},{upsert:true}, function(err, data) { 
+});
+
+        }
+        //console.log(Hotels[HotelIndex].hotelName);
+
+        
+      }
+
+
+//      console.log(Trip.findById(TripId, function (err, hotels) {}));
+
+
+
+
+
+    }
+
+
+
+
+});
+
+
+
+
+});
+
+
+
+
+
 
 
   app.put('/trips/:id', function(req, res){
@@ -135,7 +208,8 @@ app.del('/trips/:id', function(req, res){
 
 
     res.render('trips/show.jade', { 
-            trip: doc 
+            trip: doc,
+            backID: req.params.id
     });
   });
 

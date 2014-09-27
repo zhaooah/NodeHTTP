@@ -25,17 +25,12 @@ head
 										span.sr-only Close
 									h4#myModalLabel.modal-title Let us find somewhere to stay!
 								.modal-body                             
-									form(name="doneWithSelection", action="/doneWithSelection",method="post", style='max-width: 300px;')
-										input.form-control(type='hidden', name="backKey", value='#{backID}')
+									form(name="getHotelData", action="/getHotelData",method="post", style='max-width: 300px;')
 										input.form-control(type='text', name="checkin", value='20141001')
 										input.form-control(type='text', name="checkout", value='20141010')
 										input.form-control(type='text', name="city",  value='Ithaca,NY')
-										input.form-control(type='text', name="room", value='1')
-										input.form-control(type='text', name="MinimumPrice", value='1')
-										input.form-control(type='text', name="MaximumPrice", value='200')
 										button.btn.btn-default(type='submit',value='getHotelData') Let us go find it!
-
-
+									
 
 
 

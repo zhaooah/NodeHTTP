@@ -7,15 +7,13 @@ var ObjectId = mongoose.Schema.ObjectId;
 var id = mongoose.Types.ObjectId();
 
 
-var Trip = new Schema({
+var Hotel = new Schema({
     id: ObjectId,
-    tripName: String,
+    hotelName: String,
     start: String,
     end:String,
-    candidateHotels : { type : Array , "default" : [] },
-    hotels : { type : Array , "default" : [] },
-    buddies : [ {type : mongoose.Schema.ObjectId, ref : 'Account'} ]
+    pricelineID:Number
 });
 
 
-module.exports = mongoose.model('Trip', Trip);
+module.exports = mongoose.model('Hotel', Hotel);

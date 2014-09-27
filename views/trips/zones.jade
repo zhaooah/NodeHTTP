@@ -7,15 +7,7 @@ head
 		link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css', rel='stylesheet')
 		link(href='../public/css/style.css', rel='stylesheet')
 	body
-
-
-
-
 		.container
-
-
-
-
 			#pickTimeDate.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
 					.modal-dialog
 							.modal-content
@@ -25,83 +17,23 @@ head
 										span.sr-only Close
 									h4#myModalLabel.modal-title Let us find somewhere to stay!
 								.modal-body
-									-each zone in zones
-										'#{zone.name}'									
+									form(name="doneWithSelection", action="/doneWithSelection",method="post", style='max-width: 300px;')
+										input.form-control(type='text', name="checkin", value='20141001')
+										input.form-control(type='text', name="night", value='1')
+										input.form-control(type='hidden', name="backURL", value='#{backRoute}')
+										input.form-control(type='text', name="checkout", value='20141010')
+										-each zone in zones
+											li '#{zone.name}'									
+											input.form-control(type='checkbox', name='zone',value='#{zone.id}')
+										button.btn.btn-default(type='submit',value='getHotelData') Let us go find it!
 
 
 
 
 
 
-			.col-md-12
-				.navbar.navbar-default(role='navigation')
-					.container-fluid
-						.navbar-header
-							a.navbar-brand(href='#') Trip to San Francisco
-						.navbar-collapse.collapse
-							ul.nav.navbar-nav
-								li.active
-									a(href='#') Thu. 9/10
-								li
-									a(href='#') Mon. 9/11
-			.row-fluid
-				.row
-					.col-md-8 .col-md-8
-					.col-md-4 .col-md-4
-				.span8
-					.col-md-12
-						.well-none
-							#myCarousel.carousel.slide
-								.carousel-inner
-									.item.active
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x col-xs-6')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-									.item
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x col-xs-6')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-									.item
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-								a.left.carousel-control(href='#myCarousel', data-slide='prev')
-									i.fa.fa-chevron-left.fa-4
-								a.right.carousel-control(href='#myCarousel', data-slide='next')
-									i.fa.fa-chevron-right.fa-4
-					//
-						done with span8
 
+		
  
 				//
 					-bottom
