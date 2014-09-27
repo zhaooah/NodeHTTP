@@ -13,6 +13,10 @@
     "mocha": "~1.14.0",
     "chai": "~1.8.1",
     "should": "~2.1.0",
+    "request": "*",
+    "event-stream": "*",
+    "JSONStream": "*",
+    "body-parser": "*",
     "bcrypt-nodejs": "0.0.3"
   }
 }

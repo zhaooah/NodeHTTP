@@ -10,6 +10,8 @@ var id = mongoose.Types.ObjectId();
 var Trip = new Schema({
     id: ObjectId,
     tripName: String,
+    start: String,
+    end:String,
     buddies : [ {type : mongoose.Schema.ObjectId, ref : 'Account'} ]
 });
 

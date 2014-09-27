@@ -24,10 +24,15 @@ head
 										span(aria-hidden='true') ×
 										span.sr-only Close
 									h4#myModalLabel.modal-title Let us find somewhere to stay!
-								.modal-body
-									| ...
-								.modal-footer
-									button.btn.btn-primary(type='button') Okay, that's it!
+								.modal-body                             
+									form(name="getHotelData", action="/getHotelData",method="post", style='max-width: 300px;')
+										input.form-control(type='text', name="checkin", value='20141001')
+										input.form-control(type='text', name="checkout", value='20141010')
+										input.form-control(type='text', name="city",  value='Ithaca,NY')
+										button.btn.btn-default(type='submit',value='getHotelData') Let us go find it!
+
+
+
 
 
 

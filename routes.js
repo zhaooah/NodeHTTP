@@ -2,6 +2,8 @@ var passport = require('passport');
 var Account = require('./models/account');
 var Trip = require('./models/trip');
 var mongoose = require('mongoose');
+var request = require('request')
+
 
 
 module.exports = function (app) {
@@ -54,6 +56,45 @@ app.post('/trips/new', function(req, res){
 });
 
 
+app.post('/getHotelData', function(req, res){
+     var HotelsRegion;
+
+        backURL=req.header('Referer') || '/';
+
+  var checkindate=req.body.checkin
+  var checkoutdate=req.body.checkout
+  var city=req.body.city
+  var RequestPath='http://www.priceline.com/svcs/ac/index/hotels/opqsearch/'
+  var ResultPath=RequestPath.concat(city)
+//For RESTful API call
+    console.log(req.body.city)
+    console.log(ResultPath);
+
+
+ 
+ 
+  request(ResultPath, function (error, response, body) {
+
+      console.log(error);
+      console.log(response);
+     // console.log(body);
+
+
+    if (!error && response.statusCode == 200) {
+      //console.log(body)
+      HotelsRegion=JSON.parse(body); // Print the google web page.
+    }
+
+
+})
+
+  console.log(HotelsRegion.exactMatch);
+
+
+
+});
+
+
   app.put('/trips/:id', function(req, res){
   trip.findById(req.params.id, function (err, doc){
     doc.updated_at = new Date();
@@ -83,11 +124,16 @@ app.del('/trips/:id', function(req, res){
 
 
   app.get('/trips/:id', function(req, res){
+  
+
   Trip.findById(req.params.id, function (err, doc){
+
+
     res.render('trips/show.jade', { 
             trip: doc 
     });
   });
+
 });
 
 
@@ -105,6 +151,7 @@ app.del('/trips/:id', function(req, res){
 
   app.get('/login', function(req, res) {
       backURL=req.header('Referer') || '/';
+
       res.render('login', { user : req.user });
   });
 
