@@ -1,6 +1,8 @@
 var passport = require('passport');
 var Account = require('./models/account');
 var Trip = require('./models/trip');
+var mongoose = require('mongoose');
+
 
 module.exports = function (app) {
     
@@ -15,7 +17,16 @@ module.exports = function (app) {
   //Trips CRUD
 
   app.get('/trips', function(req, res) {
-      res.render('trips/index.jade', { user : req.user });
+
+     Trip.find({}, function (err, docs) {
+      res.render('trips/index.jade', { 
+        trips: docs,
+        user : req.user 
+      });
+  });
+
+
+
   });
 
   app.get('/trips/new', function(req, res){
@@ -25,10 +36,10 @@ module.exports = function (app) {
 });
 
 app.post('/trips/new', function(req, res){
-  var tripname = req.body.name;
 
   trip = new Trip({
-    name:req.body.name  });
+    tripName:req.body.tripName,
+    id:mongoose.Types.ObjectId()  });
   
 
     trip.save(function (err){
@@ -74,6 +85,7 @@ app.del('/trips/:id', function(req, res){
   app.get('/trips/:id', function(req, res){
   Trip.findById(req.params.id, function (err, doc){
     res.render('trips/show.jade', { 
+            trip: doc 
     });
   });
 });

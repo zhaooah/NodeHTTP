@@ -3,12 +3,13 @@ var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose'),
     bcrypt = require('bcrypt-nodejs');
 
-var ObjectId = require('mongoose').Schema.ObjectId;
+var ObjectId = mongoose.Schema.ObjectId;
+var id = mongoose.Types.ObjectId();
 
 
 var Trip = new Schema({
     id: ObjectId,
-    name: String,
+    tripName: String,
     buddies : [ {type : mongoose.Schema.ObjectId, ref : 'Account'} ]
 });
 
