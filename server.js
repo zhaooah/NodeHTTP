@@ -37,7 +37,7 @@ passport.deserializeUser(Account.deserializeUser());
 
 
 //Mongoose
-//!!!! Mongoose Conect Here!
+mongoose.connect('mongodb://heroku_app30064365:d0unhulra37196o0ljv5md5t97@ds039850.mongolab.com:39850/heroku_app30064365');
 
 
 //Routes
