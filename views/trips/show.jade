@@ -17,6 +17,7 @@ head
 					.container-fluid
 						.navbar-header
 							.navbar-brand
+								li San Francisco,CA
 								#{trip.tripName}
 						.navbar-collapse.collapse
 							ul.nav.navbar-nav
@@ -64,7 +65,7 @@ head
 									.row
 										-each candidateHotel in trip.candidateHotels
 											.col-sm-2.col-xs-2
-												a.thumbnail(href='#5 col-xs-5')
+												a.thumbnail(href='http://www.priceline.com/hotel/hotelOverviewGuide.do?key=i0m24vcy&propID='+candidateHotel.pclnHotelID)
 														img.img-responsive(src='#{candidateHotel.thumbnailURL}', alt='Image')
 
 
