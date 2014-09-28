@@ -6,6 +6,74 @@ head
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css', rel='stylesheet')
 		link(href='../public/css/style.css', rel='stylesheet')
+
+		script(src='/socket.io/socket.io.js')
+		script
+			var socket = io.connect();
+
+			socket.on('connect', function () {
+				$('.chat').addClass('connected');
+			});
+
+			socket.on('announcement', function (msg) {
+				$('#lines').append($('<p>').append($('<em>').text(msg)));
+			});
+
+			socket.on('nicknames', function (nicknames) {
+				$('#nicknames').empty().append($('<span>Online: </span>'));
+				for (var i in nicknames) {
+					$('#nicknames').append($('<b>').text(nicknames[i]));
+				}
+			});
+
+			socket.on('user message', message);
+			socket.on('reconnect', function () {
+				$('#lines').remove();
+				message('System', 'Reconnected to the server');
+			});
+
+			socket.on('reconnecting', function () {
+				message('System', 'Attempting to re-connect to the server');
+			});
+
+			socket.on('error', function (e) {
+				message('System', e ? e : 'A unknown error occurred');
+			});
+
+			function message (from, msg) {
+				$('#lines').append($('<p>').append($('<b>').text(from), msg));
+			}
+
+			// dom manipulation
+			$(function () {
+				$('#set-nickname').submit(function (ev) {
+					socket.emit('nickname', $('#nick').val(), function (set) {
+						if (!set) {
+							clear();
+							return $('.chat').addClass('nickname-set');
+						}
+						$('#nickname-err').css('visibility', 'visible');
+					});
+					return false;
+				});
+
+				$('#send-message').submit(function () {
+					message('me', $('#message').val());
+					socket.emit('user message', $('#message').val());
+					clear();
+					$('#lines').get(0).scrollTop = 10000000;
+					return false;
+				});
+
+				function clear () {
+					$('#message').val('').focus();
+				};
+			});
+
+
+
+
+
 	body
 
 
@@ -16,13 +84,14 @@ head
 				.navbar.navbar-default(role='navigation')
 					.container-fluid
 						.navbar-header
-							a.navbar-brand(href='#') #{trip.tripName}
+							.navbar-brand
+								#{trip.tripName}
 						.navbar-collapse.collapse
 							ul.nav.navbar-nav
-								li.active
-									a(href='#') Start #{trip.start}
 								li
-									a(href='#') End #{trip.end}
+									a(href='#') Check-in: #{trip.start}
+								li
+									a(href='#') Check-out: #{trip.end}
 			.row-fluid
 				.row
 					.col-md-9
@@ -41,8 +110,8 @@ head
 					.col-md-3
 						.middleHeight
 							.chat
-								.chat-messages
-								input.chat-sms(type='text', placeholder='Text Your Message...')
+								form.send-message
+									input.message(type='text', placeholder='Text Your Message...')
 
 
 				br
@@ -65,4 +134,6 @@ head
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 		script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js')
 		script(src='../public/js/customized.js')
+		script(src='/socket.io/socket.io.js')
+
 
