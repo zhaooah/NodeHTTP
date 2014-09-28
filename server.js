@@ -1,9 +1,6 @@
 var path = require('path');
 var http = require('http');
 var express = require('express');
-    app = module.exports.app = express();
-var server = http.createServer(app);
-var http = require('http');
 var mongoose = require('mongoose');
 
 var passport = require('passport');
@@ -42,40 +39,54 @@ app.listen(app.get('port'), function(){
 
 
 //SocketIO
-var socketdotio = require('socket.io');
-//var io = socketdotio.listen(server), username_ios = {};
-var io = socketdotio.listen(80), username_ios = {};
-//io.configure(function () { 
- // io.set("transports", ["xhr-polling"]); 
- // io.set("polling duration", 20); 
-//});
-io.sockets.on('connection', function (socket) {
-  socket.on('user message', function (msg) {
-    socket.broadcast.emit('user message', socket.username_io, msg);
-  });
+var client = require('socket.io').listen(3000).sockets;
+var mongo = require('mongodb').MongoClient;
 
+mongo.connect('mongodb://heroku_app30064365:d0unhulra37196o0ljv5md5t97@ds039850.mongolab.com:39850/heroku_app30064365',function(err,db) {
+	if(err) throw err;
 
+	client.on('connection',function(socket){
+		
+		var col= db.collection('messages');
+		var sendStatus = function(s){
+			socket.emit('status', s);
+		};
 
+		//Emit all messages
+		//Force this to all client that is open
+		//every client is listening when a new message is inserted
+		//we will not retrieve all the message again, we will only get the new message
+		col.find().limit(100).sort({_id : 1}).toArray(function(err,res){
+			if (err) throw err;
+			socket.emit('output',res);
+		});
 
-  socket.on('username_io', function (nick, fn) {
-    if (username_ios[nick]) {
-      fn(true);
-    } else {
-      fn(false);
-      username_ios[nick] = socket.username_io = nick;
-      socket.broadcast.emit('Broadcast', nick + ' is online now.');
-      io.sockets.emit('username_ios', username_ios);
-    }
-  });
+		//Wait for input
+		socket.on('input', function(data){
+			var name = data.name,
+				message = data.message,
+				whitespacePattern=/^\s*$/;
 
-  socket.on('disconnect', function () {
-    if (!socket.username_io) return;
+				if(whitespacePattern.test(name)||whitespacePattern.test(message)){
+					sendStatus('Name and message is required.');
+				}	
+				else{
+					col.insert({name:name, message:message},function(){
+						//Emit latest message to All clients
+						client.emit('output',[data])
 
-    delete username_ios[socket.username_io];
-    socket.broadcast.emit('Broadcast', socket.username_io + ' just went off online.');
-    socket.broadcast.emit('username_ios', username_ios);
-  });
-});
+						sendStatus({
+							message:"Message sent",
+							clear: true
+						});
+						// console.log('Inserted');
+					});
+
+				}
+		});
+	});
+ });
+
 
 
 

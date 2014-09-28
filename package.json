@@ -17,6 +17,7 @@
     "event-stream": "*",
     "JSONStream": "*",
     "body-parser": "*",
+    "mongodb": "*",
     "bcrypt-nodejs": "0.0.3",
     "socket.io": "latest"
 
