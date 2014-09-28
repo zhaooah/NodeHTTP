@@ -100,6 +100,9 @@ app.post('/doneWithSelection', function(req, res){
          { 'start':start,'end':end},{upsert:true}, function(err, data) { 
 });
 
+  var ImageRequestPath='http://www.priceline.com/api/hotelretail/listing/v3/'.concat(cityName).concat('/').concat(start).concat('/').concat(end).concat('/').concat(room).concat('/100?offset=0');
+
+
 
       for(var i = 0; i < HotelList.length;i++){
           var HotelIndex=HotelList[i];
@@ -109,7 +112,7 @@ app.post('/doneWithSelection', function(req, res){
         if (HotelPrice<=parseInt(max,10) || HotelPrice>=parseInt(min,10)){
           console.log(Hotels[HotelIndex].hotelName);
             Trip.update({_id:TripId },
-         {$push: { 'candidateHotels' : HotelIndex }},{upsert:true}, function(err, data) { 
+         {$push: { 'candidateHotels' : Hotels[HotelIndex] }},{upsert:true}, function(err, data) { 
 });
 
         }

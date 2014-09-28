@@ -6,3 +6,37 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+.middleHeight{
+   min-height: 100%;
+  margin-bottom: 20px;
+  margin-left: 12px;
+
+}
+
+
+
+.middleHeight img{
+width:100%;
+height:600px;
+
+}
+
+
+.middletext{
+	  margin-top: 40%;
+
+	  margin-bottom: 20%;
+
+}
+
+
+.thumbnail img{
+    bottom: 0;
+    width: 100%;
+}
+
+.thumbnail {
+    bottom: 0;
+    width: 100%;
+}

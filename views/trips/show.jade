@@ -20,70 +20,40 @@ head
 						.navbar-collapse.collapse
 							ul.nav.navbar-nav
 								li.active
-									a(href='#') Thu. 9/10
+									a(href='#') Start #{trip.start}
 								li
-									a(href='#') Mon. 9/11
+									a(href='#') End #{trip.end}
 			.row-fluid
 				.row
-					.col-md-8 .col-md-8
-					.col-md-4 .col-md-4
+					.col-md-9
+						.middleHeight			
+							img(src="http://lorempixel.com/1500/600/abstract/2")
+							.middletext.carousel-caption
+								h1 Changes to the Grid
+								p
+									| Bootstrap 3 still features a 12-column grid, but many of the CSS class names have completely changed.
+								p
+									a.btn.btn-large.btn-primary(href="#") Learn more
+
+
+
+					.col-md-3
+						.middleHeight
+
 				.span8
 					.col-md-12
-						.well-none
-							#myCarousel.carousel.slide
-								.carousel-inner
-									.item.active
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x col-xs-6')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-									.item
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x col-xs-6')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-									.item
-										.row
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-											.col-sm-3.col-xs-6
-												a.thumbnail(href='#x')
-													img.img-responsive(src='http://placehold.it/250x160', alt='Image')
-								a.left.carousel-control(href='#myCarousel', data-slide='prev')
-									i.fa.fa-chevron-left.fa-4
-								a.right.carousel-control(href='#myCarousel', data-slide='next')
-									i.fa.fa-chevron-right.fa-4
-					//
-						done with span8
+						#myCarousel.carousel.slide
+							.carousel-inner
+								.item.active
+									.row
+										-each candidateHotel in trip.candidateHotels
+											.col-sm-2.col-xs-2
+												a.thumbnail(href='#5 col-xs-5')
+														img.img-responsive(src='#{candidateHotel.thumbnailURL}', alt='Image')
+
 
  
-				//
-					-bottom
+
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 		script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js')
 		script(src='../public/js/customized.js')
