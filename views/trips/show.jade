@@ -41,13 +41,16 @@ head
 
 					.col-md-3
 						.middleHeight
-							.chat
-								input.chat-name(type='text', placeholder='Enter your name')
-								.chat-messages
-								textarea(placeholder='Type your message')
-								.chat-status
-									| Status:
-									span Idle
+							if (!user)
+								a(href="/login") Login
+							if (user)
+								.chat
+									input.chat-name(type='hidden', value='#{user.username}')
+									.chat-messages
+									textarea(placeholder='Type your message')
+									.chat-status
+										| Status:
+										span Standby
 
 
 				br
