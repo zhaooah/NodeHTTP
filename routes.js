@@ -21,6 +21,8 @@ module.exports = function (app) {
   app.get('/trips', function(req, res) {
 
      Trip.find({}, function (err, docs) {
+        console.log(docs);
+
       res.render('trips/index.jade', { 
         trips: docs,
         user : req.user 
@@ -46,7 +48,9 @@ app.post('/trips/new', function(req, res){
 
     trip.save(function (err){
     if (!err) {
-      res.redirect('/trips');
+        res.render('trips/gettingstarted.jade', { 
+            backID: trip.id});
+
     }
     else {
       req.flash('warning', err);
@@ -56,45 +60,6 @@ app.post('/trips/new', function(req, res){
 });
 
 
-app.post('/getHotelData', function(req, res){
-
-        backURL=req.header('Referer') || '/';
-
-  var checkindate=req.body.checkin
-  var checkoutdate=req.body.checkout
-  var city=req.body.city
-  var RequestPath='http://www.priceline.com/svcs/ac/index/hotels/opqsearch/'
-  var ResultPath=RequestPath.concat(city)
-//For RESTful API call
-    console.log(req.body.city)
-    console.log(ResultPath);
-
-
- var HotelZones;
- 
-  request(ResultPath, function (error, response, body) {
-
-      console.log(error);
-      console.log(response);
-     // console.log(body);
-
-
-    if (!error && response.statusCode == 200) {
-      //console.```(body)
-      var HotelZones=JSON.parse(body).region.zones;
-
-      res.redirect(backURL);
-
-    }
-
-
-})
-
-
-
-
-
-});
 
 
 
@@ -130,6 +95,10 @@ app.post('/doneWithSelection', function(req, res){
 //      var it = Iterator(HotelList);
   //    for (var hotel in it)
     //    console.log(hotel);
+
+            Trip.update({_id:TripId },
+         { 'start':start,'end':end},{upsert:true}, function(err, data) { 
+});
 
 
       for(var i = 0; i < HotelList.length;i++){
@@ -184,7 +153,9 @@ app.post('/doneWithSelection', function(req, res){
 
 
   app.put('/trips/:id', function(req, res){
+
   trip.findById(req.params.id, function (err, doc){
+
     doc.updated_at = new Date();
     doc.trip = req.body.trip.trip;
     doc.save(function(err) {
@@ -201,6 +172,9 @@ app.post('/doneWithSelection', function(req, res){
 
 // Delete
 app.del('/trips/:id', function(req, res){
+
+
+
   trip.findOne({ _id: req.params.id }, function(err, doc) {
     if (!doc) return next(new NotFound('Document not found'));
     doc.remove(function() {
@@ -211,10 +185,23 @@ app.del('/trips/:id', function(req, res){
 });
 
 
-  app.get('/trips/:id', function(req, res){
+app.get('/trips/:id', function(req, res){
   
 
   Trip.findById(req.params.id, function (err, doc){
+
+/*
+    try {
+     console.log('Error here!');
+
+    }
+    catch(err) {
+                res.render('trips/gettingstarted.jade', { 
+              trip: doc,
+            backID: req.params.id});
+    }
+*/
+
 
 
     res.render('trips/show.jade', { 
@@ -224,6 +211,9 @@ app.del('/trips/:id', function(req, res){
   });
 
 });
+
+
+
 
 
   app.post('/register', function(req, res) {
