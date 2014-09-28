@@ -209,6 +209,7 @@ app.get('/trips/:id', function(req, res){
 
     res.render('trips/show.jade', { 
             trip: doc,
+            user : req.user,
             backID: req.params.id
     });
   });

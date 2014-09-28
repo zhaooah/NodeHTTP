@@ -24,9 +24,9 @@ height:650px;
 
 
 .middletext{
-    margin-top: 40%;
+	  margin-top: 40%;
 
-    margin-bottom: 20%;
+	  margin-bottom: 20%;
 
 }
 
@@ -43,7 +43,6 @@ height:650px;
 
 
 
-
 body,
 textarea,
 input {
@@ -51,32 +50,46 @@ input {
 }
 
 .chat{
-  margin-left: 0px;
-  margin-right: 5px;
   width: 100%;
-  height:100%;
 }
 
-
-
-.send-message{
+.chat-messages,
+.chat textarea,
+.chat-name {
   border: 1px solid #bbb;
+}
+
+.chat-messages{
   width:100%;
-  height: 610px;
+  height: 300px;
   overflow-y:scroll;
   padding:10px;
 }
 
+.chat-message{
+  margin-bottom: 10px;
+}
 
-.message{
-    border: 1px solid #bbb;
-
+.chat-name{
   width: 100%;
   padding: 10px;
-  border-top: 0;
+  border-bottom: 0;
   margin: 0;
 }
 
+.chat textarea{
+  width: 100%;
+  padding: 10px;  
+  margin: 0;
+  border-top: 0;
+  max-width: 100%;
+}
 
+.chat-status{
+  color: #bbb
+}
 
-
+.chat textarea,
+.chat-name{
+  outline: none;
+}

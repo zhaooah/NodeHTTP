@@ -41,7 +41,13 @@ head
 
 					.col-md-3
 						.middleHeight
-
+							.chat
+								input.chat-name(type='text', placeholder='Enter your name')
+								.chat-messages
+								textarea(placeholder='Type your message')
+								.chat-status
+									| Status:
+									span Idle
 
 
 				br
@@ -58,22 +64,13 @@ head
 												a.thumbnail(href='#5 col-xs-5')
 														img.img-responsive(src='#{candidateHotel.thumbnailURL}', alt='Image')
 
-				.span8
-					.col-md-12
-						.chat
-							input.chat-name(type='text', placeholder='Enter your name')
-							.chat-messages
-							textarea(placeholder='Type your message')
-							.chat-status
-								| Status:
-								span Idle
 
  
 
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 		script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js')
 		script(src='../public/js/customized.js')
-		script(type='text/javascript', src='http://localhost:3000/socket.io/socket.io.js')
+		script(type='text/javascript', src='http://localhost:3100/socket.io/socket.io.js')
 		script(type='text/javascript')
 			(function(){
 			var getNode = function(s){
@@ -99,7 +96,7 @@ head
 			// test status message
 			//setStatus('Testing');
 			try{
-			var socket = io.connect('http://localhost:3000');
+			var socket = io.connect('http://localhost:3100');
 			}catch(e){
 			// Set status to warn user
 			}

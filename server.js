@@ -39,7 +39,7 @@ app.listen(app.get('port'), function(){
 
 
 //SocketIO
-var client = require('socket.io').listen(3000).sockets;
+var client = require('socket.io').listen(3100).sockets;
 var mongo = require('mongodb').MongoClient;
 
 mongo.connect('mongodb://heroku_app30064365:d0unhulra37196o0ljv5md5t97@ds039850.mongolab.com:39850/heroku_app30064365',function(err,db) {
